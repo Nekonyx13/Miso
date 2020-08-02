@@ -1,25 +1,18 @@
 const { Client } = require('discord.js');
-const { config } = require('dotenv');
+const { TOKEN } = require('./config.json');
 
 const client = new Client();
-const messageHandler = require('./src/handlers/message-handler');
-
-config({
-    path: __dirname + "/.env"
-});
+const { handleMessage } = require('./src/handlers/messageHandler');
 
 
 client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
+    console.log(`Successfully logged in as ${client.user.tag}!`);
 
-    client.user.setStatus('idle');
     client.user.setActivity("with Tofu", { type: 'PLAYING' });
 });
 
 client.on('message', (receivedMessage) => {
-    if (receivedMessage.author != client.user) {
-        messageHandler.handleMessage(receivedMessage);
-    }
+    handleMessage(receivedMessage);
 });
 
-client.login(process.env.TOKEN);
+client.login(TOKEN);
