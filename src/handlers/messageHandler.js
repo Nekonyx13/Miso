@@ -8,7 +8,8 @@ exports.handleMessage = (message) => {
         return;
     }
     else if (message.content.startsWith(config.PREFIX)) {
-        let command = message.content.split('\\s+');
+        const args = message.content.slice(config.PREFIX.length).trim().split(/ +/);
+        const command = args.shift().toLowerCase();
 
         message.channel.send("Sorry, I don't recognize this one...");
     }
