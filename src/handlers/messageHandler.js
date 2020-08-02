@@ -1,5 +1,5 @@
 const config = require('../../config.json');
-// const { handleCommand } = require()
+const { client } = require('../../index');
 
 exports.handleMessage = (message) => {
     logMessage(message);
@@ -7,11 +7,20 @@ exports.handleMessage = (message) => {
     if (message.author.bot) {
         return;
     }
-    else if (message.content.startsWith(config.PREFIX)) {
+    else if (message.content.startsWith(config.PREFIX)) { //  TODO: CommandHandler
         const args = message.content.slice(config.PREFIX.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
 
-        message.channel.send("Sorry, I don't recognize this one...");
+        if (!client.commands.has(command)) {
+            return;
+        }
+        try {
+            client.commands.get(command).execute(message, args);
+        }
+        catch (cmdError) {
+            console.error(cmdError);
+            message.reply("There was an error trying to execute this command!");
+        }
     }
     else {
         return; // TODO: Custom Reactions
@@ -20,4 +29,5 @@ exports.handleMessage = (message) => {
 
 function logMessage(message) {
     console.log(`${message.author.username} sent '${message.content}'`);
+    //  TODO: Proper Logging through Chatfiles
 }
