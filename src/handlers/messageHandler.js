@@ -11,7 +11,7 @@ exports.handleMessage = (message) => {
         const args = message.content.slice(config.PREFIX.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
 
-        // test3
+        // test6
 
         message.channel.send("Sorry, I don't recognize this one...");
     }
