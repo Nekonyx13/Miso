@@ -1,4 +1,4 @@
-const config = require('../../config.json');
+const { PREFIX } = require('../../config.json');
 const { client } = require('../../index');
 
 exports.handleMessage = (message) => {
@@ -7,8 +7,8 @@ exports.handleMessage = (message) => {
     if (message.author.bot) {
         return;
     }
-    else if (message.content.startsWith(config.PREFIX)) { //  TODO: CommandHandler
-        const args = message.content.slice(config.PREFIX.length).trim().split(/ +/);
+    else if (message.content.startsWith(PREFIX)) { //  TODO: CommandHandler
+        const args = message.content.slice(PREFIX.length).trim().split(/ +/);
         const command = args.shift().toLowerCase();
 
         if (!client.commands.has(command)) {
