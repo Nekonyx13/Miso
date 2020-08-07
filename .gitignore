@@ -1,1 +1,4 @@
-config.json
+./config.json
+./.eslintrc.json
+./data/*
+./media/*
