@@ -9,12 +9,13 @@ client.commands = new Discord.Collection();
 const { handleMessage } = require('./src/handlers/messageHandler');
 
 
-client.on('ready', () => { // TODO: printReadyMessage
+client.on('ready', async () => { // TODO: printReadyMessage
     console.info(`Running ${config.bot_name}!`);
     console.info(`Current Verison: ${config.version}`);
     console.log("\n\n");
 
-    initializeCommands();
+    await initializeCommands();
+    await initializeLogs();
 
     console.info(`Successfully logged in as ${client.user.tag}`);
 
@@ -25,7 +26,8 @@ client.on('message', (receivedMessage) => {
     handleMessage(receivedMessage);
 });
 
-function initializeCommands() {
+
+async function initializeCommands() {
     const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
 
     console.log("Initializing Commands...");
@@ -36,6 +38,25 @@ function initializeCommands() {
         console.log(`   - ${command.name}`);
     }
     console.log("\n\n");
+}
+
+async function initializeLogs() {
+    client.guilds.cache.forEach(guild => {
+        const guildName = guild.name.replace(/[|&;$%@"<>()+,]/g, "_");
+        const guildPath = `./data/logs/${guildName}`;
+
+        if (!fs.existsSync(guildPath)) {
+            fs.mkdirSync(guildPath, { recursive: true });
+
+            guild.channels.cache.forEach(channel => {
+                if(channel.type == "text") {
+                    const channelName = channel.name.replace(/[|&;$%@"<>()+,]/g, "_");
+                    const channelPath = `${guildPath}/${channelName}`;
+                    fs.mkdirSync(channelPath);
+                }
+            });
+        } 
+    });
 }
 
 client.login(config.TOKEN);
