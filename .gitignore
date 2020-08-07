@@ -1,4 +1,4 @@
-./config.json
-./.eslintrc.json
-./data/*
-./media/*
+config.json
+.eslintrc.json
+data/*
+media/*
