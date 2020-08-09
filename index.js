@@ -47,15 +47,17 @@ async function initializeLogs() {
 
         if (!fs.existsSync(guildPath)) {
             fs.mkdirSync(guildPath, { recursive: true });
+        }
 
-            guild.channels.cache.forEach(channel => {
-                if(channel.type == "text") {
-                    const channelName = channel.name.replace(/[|&;$%@"<>()+,]/g, "_");
-                    const channelPath = `${guildPath}/${channelName}`;
+        guild.channels.cache.forEach(channel => {
+            if(channel.type == "text") {
+                const channelName = channel.name.replace(/[|&;$%@"<>()+,]/g, "_");
+                const channelPath = `${guildPath}/${channelName}`;
+                if (!fs.existsSync(channelPath)) {
                     fs.mkdirSync(channelPath);
                 }
-            });
-        } 
+            }
+        });
     });
 }
 
