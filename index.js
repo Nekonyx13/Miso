@@ -42,19 +42,23 @@ async function initializeCommands() {
 
 async function initializeLogs() {
     client.guilds.cache.forEach(guild => {
+        const guildID = guild.id;
         const guildName = guild.name.replace(/[|&;$%@"<>()+,]/g, "_");
-        const guildPath = `./data/logs/${guildName}`;
+        const guildPath = `./data/logs/${guildID}`;
 
         if (!fs.existsSync(guildPath)) {
             fs.mkdirSync(guildPath, { recursive: true });
+            fs.mkdirSync(`${guildPath}/.${guildName}`);
         }
 
         guild.channels.cache.forEach(channel => {
             if(channel.type == "text") {
+                const channelID = channel.id;
                 const channelName = channel.name.replace(/[|&;$%@"<>()+,]/g, "_");
-                const channelPath = `${guildPath}/${channelName}`;
+                const channelPath = `${guildPath}/${channelID}`;
                 if (!fs.existsSync(channelPath)) {
                     fs.mkdirSync(channelPath);
+                    fs.mkdirSync(`${channelPath}/.${channelName}`);
                 }
             }
         });
