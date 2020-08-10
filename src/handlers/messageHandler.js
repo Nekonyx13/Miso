@@ -9,18 +9,18 @@ exports.handleMessage = (message) => {
         return;
     }
     else if (message.content.startsWith(PREFIX)) { //  TODO: CommandHandler
-        const elements = message.content.slice(PREFIX.length).trim().split(/ +/);
-        const commandName = elements.shift().toLowerCase();
+        const parameters = message.content.slice(PREFIX.length).trim().split(/ +/);
+        const commandName = parameters.shift().toLowerCase();
 
         const args = [];
         const opts = [];
 
-        for (const element of elements) {
-            if (element.startsWith('-')) {
-                opts.push(element.slice(1).toLowerCase());
+        for (const param of parameters) {
+            if (param.startsWith('-')) {
+                opts.push(param.slice(1).toLowerCase());
             } 
             else {
-                args.push(element);
+                args.push(param);
             }
         }
 
