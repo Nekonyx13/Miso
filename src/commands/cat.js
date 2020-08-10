@@ -10,18 +10,21 @@ const feedLimit = 100;
 module.exports = {
     name: "cat",
     description: "Sends a random cat image! Mreeeow!",
+    args: false,
+    opts: true,
 
-    async execute(message, args) {    
+    async execute(message, args, opts) {    
         let catEmbed;
 
-        if (!args.length) {
+        if (!opts.length) {
             catEmbed = await getAPIEmbed();
         }
-        else if("reddit".startsWith(args[0].toLowerCase())) {
+        else if(opts[0] == "reddit" || opts[0] == "r") {
             catEmbed = await getRedditEmbed();    
         }
         else {
-            message.channel.send("Sorry, I don't know where to get this from");
+            message.channel.send("Sorry, I don't know where you want me to get this from");
+            return;
         }
 
         message.channel.send({ embed: catEmbed });
