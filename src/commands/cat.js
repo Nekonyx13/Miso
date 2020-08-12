@@ -10,8 +10,11 @@ const feedLimit = 100;
 module.exports = {
     name: "cat",
     description: "Sends a random cat image! Mreeeow!",
+    usage: "",
+
     args: false,
     opts: true,
+
 
     async execute(message, args, opts) {    
         let catEmbed;
