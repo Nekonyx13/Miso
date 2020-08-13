@@ -64,7 +64,11 @@ async function getRedditEmbed() {
     const file = new Discord.MessageAttachment(url);
 
     const embed = {
-        title: post.data.title,
+        title: "Here's a cat!",
+        description: post.data.title,
+        footer: {
+            text: "Source: reddit.com/r/cats"
+        },
         color: "#FF4500",
         image: {
             url: file.attachment
