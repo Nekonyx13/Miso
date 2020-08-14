@@ -8,7 +8,6 @@ module.exports = {
     usage: "",
     
     async execute(message) {
-        const now = Date.now();
         const reply = await message.channel.send({ embed: {
             title: "Pinging...",
         } });

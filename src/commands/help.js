@@ -9,7 +9,7 @@ module.exports = {
     opts: false,
     maxArgs: 1,
 
-    execute(message, args, opts) {
+    execute(message, args) {
         const { commands } = message.client;
 
         if (!args.length) {
