@@ -1,6 +1,3 @@
-const { OpusEncoder } = require('@discordjs/opus');
-const fs = require('fs');
-
 module.exports = {
     name: "join",
     description: "Let me join ur voice channel owo",
