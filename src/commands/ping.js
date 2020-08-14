@@ -4,8 +4,17 @@ module.exports = {
     description: "Tests your Ping!",
     args: false,
     opts: false,
+
+    usage: "",
     
-    execute(message) {
-        message.channel.send("This should be Pong");
+    async execute(message) {
+        const now = Date.now();
+        const reply = await message.channel.send({ embed: {
+            title: "Pinging...",
+        } });
+        reply.edit({ embed: {
+            title: "Pong!",
+            description: `Latency: ${reply.createdTimestamp - message.createdTimestamp}ms`,
+        } });
     }
 };
