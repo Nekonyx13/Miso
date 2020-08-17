@@ -1,6 +1,6 @@
 module.exports = {
     name: "skip",
-    description: "Play a song using a YouTube Link!",
+    description: "Skip a song in the queue!",
     args: true,
     opts: false,
 
