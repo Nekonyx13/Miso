@@ -4,6 +4,7 @@ const config = require('./config.json');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+client.queues = new Discord.Collection();
 
 client.on('ready', async () => {
     printReadyMessage();
@@ -11,7 +12,7 @@ client.on('ready', async () => {
     await initializeEvents();
     await initializeCommands();
     await initializeLogs();
-    
+
     console.info("Initialization finished!\n\n");
     console.info("Logging starts here:\n");
 
@@ -48,7 +49,7 @@ async function initializeEvents() {
     const requireAll = require("require-all");
 
     const files = requireAll({                
-        dirname: `${__dirname}/src/handlers`,
+        dirname: `${__dirname}/src/eventHandlers`,
         filter: /^(?!-)(.+)\.js$/              
     });
 

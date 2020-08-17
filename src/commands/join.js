@@ -9,10 +9,10 @@ module.exports = {
     async execute(message, args) {
         if(!args.length) {
             if (message.member.voice.channel) {
-                const connection = await message.member.voice.channel.join();
+                return await message.member.voice.channel.join();
             } 
             else {
-                message.reply("Hey, you aren't even in a voice channel!");
+                message.reply("Hey, you aren't even inside a voice channel!");
             }
         }
     }
