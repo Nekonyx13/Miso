@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 const querystring = require('querystring');
-const { YOUTUBE_API_KEY } = require("../../secrets.json");
+const { YOUTUBE_API_KEY } = require("../../../secrets.json");
 
-module.exports.getYouTubeSearchResults = async (searchTerm, maxResults) => {
+exports.getYouTubeSearchResults = async (searchTerm, maxResults) => {
     const url = ["https://www.googleapis.com/youtube/v3/search?", 
         querystring.stringify({ 
             part: 'snippet',

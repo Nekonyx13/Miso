@@ -3,8 +3,9 @@ const Discord = require('discord.js');
 const config = require('./config.json');
 
 const client = new Discord.Client();
+exports.client = client;
+
 client.commands = new Discord.Collection();
-client.queues = new Discord.Collection();
 
 client.on('ready', async () => {
     printReadyMessage();
@@ -20,7 +21,6 @@ client.on('ready', async () => {
 });
 
 client.login(config.TOKEN);
-
 
 function printReadyMessage() {
     console.info(`Running ${config.bot_name}!`);
