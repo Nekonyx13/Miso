@@ -7,8 +7,7 @@ module.exports = {
     maxArgs: 1,
 
     async execute(message, args) {
-        const queues = message.client.queues;
-        const serverQueue = queues.get(message.guild.id);
+        const serverQueue = message.client.queues.get(message.guild.id);
         return serverQueue.connection.dispatcher.end();
     }
 };
