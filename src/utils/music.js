@@ -15,11 +15,9 @@ exports.resolveYouTubeSong = async (arg) => {
     }
 
     const songInfo = await ytdl.getInfo(url);
-
-    console.log(songInfo.player_response.videoDetails.thumbnail.thumbnails[0].url);
     return {
         title: songInfo.title,
         url: songInfo.video_url,
-        thumbnail: songInfo.player_response.videoDetails.thumbnail.thumbnails[0].url,
+        thumbnail: songInfo.player_response.videoDetails.thumbnail.thumbnails[2].url,
     };
 };
