@@ -9,6 +9,7 @@ exports.getYouTubeSearchResults = async (searchTerm, maxResults) => {
             maxResults: maxResults,
             order: 'relevance',
             q: searchTerm,
+            type: 'video',
             key: YOUTUBE_API_KEY,
         })
     ].join("");
