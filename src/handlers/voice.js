@@ -11,17 +11,19 @@ exports.createQueue = (guild, song) => {
         textChannel: null,
         connection: null,
         songs: [song],
+        index: 0,
         volume: 1,
-        playing: true,
+        playing: false,
     };
     queues.set(guild.id, queueConstruct);    
 };
 
-exports.playQueue = (guild, message, connection) => {
+exports.startQueue = (guild, message, connection) => {
     const serverQueue = queues.get(guild.id);
     serverQueue.voiceChannel = connection.channel;
     serverQueue.textChannel = message.channel;
-    serverQueue.connection = connection, 
+    serverQueue.connection = connection,
+    serverQueue.playing = true, 
 
     play(serverQueue);
 };
@@ -29,6 +31,14 @@ exports.playQueue = (guild, message, connection) => {
 exports.addToQueue = (guild, song) => {
     const serverQueue = queues.get(guild.id);
     serverQueue.songs.push(song);
+    serverQueue.textChannel.send({ embed: {
+        title: "Added to Queue",
+        description: song.title,
+        color: "#8eedd2",
+        image: {
+            url: song.thumbnail,
+        },
+    } });
 };
 
 exports.getServerQueue = (guild) => {
@@ -36,17 +46,26 @@ exports.getServerQueue = (guild) => {
 };
 
 async function play(serverQueue) {
-    const song = serverQueue.songs[0];
+    const song = serverQueue.songs[serverQueue.index];
+
     if(!song) {
-        return serverQueue.voiceChannel.leave();
+        serverQueue.playing = false;
+        return;
     }
     const dispatcher = serverQueue.connection
         .play(await ytdl(song.url), { type: 'opus' })
         .on("finish", () => {
-            serverQueue.songs.shift();
+            serverQueue.index++;
             play(serverQueue);
         })
         .on("error", error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-    serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+    serverQueue.textChannel.send({ embed: {
+        title: "Now Playing",
+        description: song.title,
+        color: "#8eeda9",
+        image: {
+            url: song.thumbnail,
+        },
+    } });
 }
