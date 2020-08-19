@@ -17,21 +17,36 @@ module.exports = {
         }
         
         const serverQueue = voice.getServerQueue(message.guild);
-        const song = await music.resolveYouTubeSong(args.join(" "));
         
         if(serverQueue) {
-            voice.addToQueue(guild, song);
-            message.channel.send({ embed: {
-                title: "Added to Queue",
-                description: song.title,
-                image: {
-                    url: song.thumbnail,
-                },
-            } });
+            if(!args.length && serverQueue.playing) {
+                return message.reply("The Queue is already playing! Please provide an argument to add a song!");
+            }
+            if(!args.length) {
+                if(!serverQueue.songs.length) {
+                    return message.reply("The Queue is currently empty! Please add a song first!");
+                }
+                serverQueue.index = 0;
+                return voice.startQueue(guild, message, connection);
+            }
+
+            const song = await music.resolveYouTubeSong(args.join(" "));
+            try {
+                voice.addToQueue(guild, song);
+            }
+            catch(queueError) {
+                console.error(queueError);
+                message.reply("Failed to add to Queue!");
+            }
         } 
         else {
+            if(!args.length) {
+                message.reply("The Queue is currently empty! Please add a song first!");
+                return;
+            }
+            const song = await music.resolveYouTubeSong(args.join(" "));
             voice.createQueue(guild, song);
-            voice.playQueue(guild, message, connection);
+            voice.startQueue(guild, message, connection);
         }
     }
 };
