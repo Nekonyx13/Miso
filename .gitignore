@@ -3,3 +3,4 @@ config.json
 data/*
 media/*
 secrets.json
+.vscode
