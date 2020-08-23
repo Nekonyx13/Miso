@@ -18,6 +18,25 @@ module.exports = {
         
         const serverQueue = voice.getServerQueue(message.guild);
         
+        if(!args.length) {
+            if(!serverQueue || !serverQueue.songs.length) {
+                return message.reply("The queue is currently empty, please add a song first!");
+            }  
+            if(!serverQueue.playing) {
+                voice.startQueue(guild, message, connection);
+            }
+            else {
+                if(connection.dispatcher.paused) {
+                    connection.dispatcher.resume();
+                    serverQueue.paused = false;
+                    return;
+                }
+                message.reply(`The Queue is already playing!\n If you want to add a song try m.play [searchTerm/Link]`);
+            }
+            return;
+        }
+
+
         if(serverQueue) {
             if(!args.length && serverQueue.playing) {
                 return message.reply("The Queue is already playing! Please provide an argument to add a song!");
@@ -40,10 +59,6 @@ module.exports = {
             }
         } 
         else {
-            if(!args.length) {
-                message.reply("The Queue is currently empty! Please add a song first!");
-                return;
-            }
             const song = await music.resolveYouTubeSong(args.join(" "));
             voice.createQueue(guild, song);
             voice.startQueue(guild, message, connection);

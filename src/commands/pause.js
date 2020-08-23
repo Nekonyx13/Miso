@@ -13,13 +13,13 @@ module.exports = {
             return message.reply("You can't pause me if I have nothing to play");
         }
 
-        if(serverQueue.playing) {
+        if(!serverQueue.paused) {
             serverQueue.connection.dispatcher.pause();
-            serverQueue.playing = false;
+            serverQueue.paused = true;
         } 
         else {
             serverQueue.connection.dispatcher.resume();
-            serverQueue.playing = true;
+            serverQueue.paused = false;
         }
     }
 };

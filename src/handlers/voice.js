@@ -14,6 +14,7 @@ exports.createQueue = (guild, song) => {
         index: 0,
         volume: 1,
         playing: false,
+        paused: false,
     };
     queues.set(guild.id, queueConstruct);    
 };
@@ -50,6 +51,7 @@ async function play(serverQueue) {
 
     if(!song) {
         serverQueue.playing = false;
+        serverQueue.index = 0;
         return;
     }
     const dispatcher = serverQueue.connection
