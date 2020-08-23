@@ -36,20 +36,13 @@ module.exports = {
             return;
         }
 
-
-        if(serverQueue) {
-            if(!args.length && serverQueue.playing) {
-                return message.reply("The Queue is already playing! Please provide an argument to add a song!");
-            }
-            if(!args.length) {
-                if(!serverQueue.songs.length) {
-                    return message.reply("The Queue is currently empty! Please add a song first!");
-                }
-                serverQueue.index = 0;
-                return voice.startQueue(guild, message, connection);
-            }
-
-            const song = await music.resolveYouTubeSong(args.join(" "));
+        const song = await music.resolveYouTubeSong(args.join(" "))
+            .catch(error => {
+                message.reply("Your link or query didn't fetch any results!");
+                return console.error(error);
+            });
+            
+        if(serverQueue && serverQueue.songs.length) {
             try {
                 voice.addToQueue(guild, song);
             }
@@ -59,7 +52,6 @@ module.exports = {
             }
         } 
         else {
-            const song = await music.resolveYouTubeSong(args.join(" "));
             voice.createQueue(guild, song);
             voice.startQueue(guild, message, connection);
         }
