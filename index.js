@@ -68,12 +68,12 @@ async function initializeEvents() {
 }
 
 async function initializeLogs() {
+    console.info("Initializing Logs...");
+    console.log("\n\n");
     client.guilds.cache.forEach(guild => {
         const guildID = guild.id;
         const guildName = guild.name;
         const guildPath = `./data/logs/${guildID}`;
-
-        console.info("Initializing Logs...");
 
         if (!fs.existsSync(guildPath)) {
             fs.mkdirSync(guildPath, { recursive: true });
@@ -91,6 +91,5 @@ async function initializeLogs() {
                 }
             }
         });
-        console.log("\n\n");
     });
 }
