@@ -17,6 +17,7 @@
     "node-fetch": "^2.6.0",
     "r2": "^2.0.1",
     "require-all": "^3.0.0",
+    "youtube-playlist": "^1.0.4",
     "ytdl-core-discord": "^1.2.1"
   },
   "devDependencies": {
