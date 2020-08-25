@@ -2,8 +2,8 @@
 const fetch = require('node-fetch');
 
 module.exports = {
-    name: "anime",
-    description: "Get information about an anime from [MyAnimelist](www.myanimelist.net)",
+    name: "manga",
+    description: "Get information about a manga from [Mymangalist](www.mymangalist.net)",
     args: true,
     opts: false,
     usage: "<search>",
@@ -12,7 +12,7 @@ module.exports = {
 
     async execute(message, args) {
         const query = args.join(' ');
-        await fetch(`https://api.jikan.moe/v3/search/anime?q=${query}&page=1`)
+        await fetch(`https://api.jikan.moe/v3/search/manga?q=${query}&page=1`)
             .then(response => response.json())
             .then(async json => {
                 const result = json.results[0];
@@ -30,8 +30,8 @@ module.exports = {
                             inline: true,
                         },
                         {
-                            name: "Episodes",
-                            value: result.episodes,
+                            name: "Chapters",
+                            value: result.chapters,
                             inline: true,
                         },
                         {
@@ -63,7 +63,7 @@ module.exports = {
                     moreEmbed.setFooter("");
 
                     if(result.synopsis.endsWith("...")) {
-                        await fetch(`https://api.jikan.moe/v3/anime/${result.mal_id}/`)
+                        await fetch(`https://api.jikan.moe/v3/manga/${result.mal_id}/`)
                             .then(response => response.json())
                             .then(res => {
                                 if(res.synopsis.length < 1024) {

@@ -1,13 +1,29 @@
 module.exports = {
     name: "skip",
-    description: "Skip a song in the queue!",
+    description: "Skips one or multiple tracks in the queue",
+    usage: "[amount]",
+
     args: true,
     opts: false,
-
-    maxArgs: 1,
-
+    
     async execute(message, args) {
         const serverQueue = message.client.queues.get(message.guild.id);
-        return serverQueue.connection.dispatcher.end();
+        if(!serverQueue) return;
+
+        const amount = (args.length || !isNaN(args[0])) ? args[0] : 1;
+
+        serverQueue.index--; // .end() already adds 1 to the index
+        serverQueue.connection.dispatcher.end();
+        for (let i = 0; i < amount; i++) {
+            serverQueue.index++;
+            if(serverQueue.index > serverQueue.songs.length - 1) {
+                if(serverQueue.looping) {
+                    serverQueue.index = 0;
+                    continue;
+                }
+                serverQueue.index = serverQueue.songs.length;
+                break;
+            }        
+        }
     }
 };

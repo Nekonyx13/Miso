@@ -9,10 +9,10 @@ const feedLimit = 100;
 
 module.exports = {
     name: "cat",
-    description: "Sends a random cat image! Mreeeow!",
+    description: "Sends a random cat image! Meeeow!",
     usage: "[options]",
 
-    args: false,
+    args: true,
     opts: true,
 
 
@@ -35,8 +35,7 @@ module.exports = {
 };
 
 async function getAPIEmbed() {
-    const images = await loadAPIImage();
-    const image = images[0];
+    const image = await loadAPIImage();
     const breed = image.breeds[0];
 
     const file = new Discord.MessageAttachment(image.url);
@@ -92,7 +91,8 @@ async function loadAPIImage() {
 
     try {
         const _url = CAT_API_URL + `v1/images/search?${queryString}`;
-        return await fetch(_url, { header }).then(response => response.json());
+        const response = await fetch(_url, { header }).then(images => images.json());
+        return response[0];
     }
     catch (imgError) {
         console.error(imgError);

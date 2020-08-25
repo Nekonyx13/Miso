@@ -1,18 +1,28 @@
 module.exports = {
     name: "back",
-    description: "Jumps back to the previous song in the queue!",
+    description: "Goes back one or multiple tracks in the queue",
     args: true,
     opts: false,
-
-    maxArgs: 1,
+    usage: "[amount]",
 
     async execute(message, args) {
         const serverQueue = message.client.queues.get(message.guild.id);
+        const amount = (args.length && !isNaN(args[0])) ? args[0] : 1;
 
-        if(serverQueue.index < 1) {
-            return message.reply("This is already the first song in the queue!");
+        if(serverQueue.index < 1 && !serverQueue.looping) {
+            return message.channel.send("This is already the first song in the queue!");
         }
-        serverQueue.index -= 2; // .end() already adds 1 to the index
         serverQueue.connection.dispatcher.end(); 
+        for (let i = 0; i <= amount; i++) {
+            serverQueue.index--;
+            if(serverQueue.index < 0) {
+                if(serverQueue.looping) {
+                    serverQueue.index = serverQueue.songs.length - 1;
+                    continue;
+                }
+                serverQueue.index = -1;
+                break;
+            }
+        }
     }
 };

@@ -1,25 +1,21 @@
 module.exports = {
     name: "pause",
-    description: "Pauses the queue",
+    description: "Pauses the music player",
+    usage: "",
+    
     args: false,
     opts: false,
 
     maxArgs: 1,
 
-    async execute(message, args) {
+    async execute(message) {
         const serverQueue = message.client.queues.get(message.guild.id);
 
-        if(!serverQueue) {
-            return message.reply("You can't pause me if I have nothing to play");
+        if(!serverQueue || !serverQueue.playing) {
+            return message.reply("You can't pause the playback if nothing's being played!");
         }
-
-        if(!serverQueue.paused) {
-            serverQueue.connection.dispatcher.pause();
-            serverQueue.paused = true;
-        } 
-        else {
-            serverQueue.connection.dispatcher.resume();
-            serverQueue.paused = false;
-        }
+        (serverQueue.paused) ? serverQueue.connection.dispatcher.resume()
+            : serverQueue.connection.dispatcher.pause();
+        serverQueue.paused = !serverQueue.paused;
     }
 };

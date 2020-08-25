@@ -2,7 +2,7 @@ const { PREFIX } = require('../../config.json');
 
 module.exports = {
     name: "help",
-    description: "Provides help in form of a list of commands, or for usage of..- Wait isn't that a little recursive!?..",
+    description: "Provides help in form of a list of commands, or...- Wait isn't that a little recursive?  (〇ヘ 〇)？",
     usage: "[command]",
 
     args: true,
@@ -30,7 +30,9 @@ module.exports = {
 
         const command = commands.get(args[0].toLowerCase());
 
-        if(!command) return message.channel.send("I don't have any help for this one, sorry");
+        if(!command) {
+            return message.channel.send(`:question: - I couldn't find any command or category called '**${args[0].toLowerCase()}**'`);
+        }
         return message.channel.send({ embed: {
             title: command.name,
             description: command.description,
