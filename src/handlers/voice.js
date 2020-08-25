@@ -15,7 +15,11 @@ exports.createQueue = (guild, song) => {
         volume: 1,
         playing: false,
         paused: false,
+        looping: false,
     };
+    if(!song) {
+        queueConstruct.songs = [];
+    }
     queues.set(guild.id, queueConstruct);    
 };
 
@@ -32,14 +36,14 @@ exports.startQueue = (guild, message, connection) => {
 exports.addToQueue = (guild, song) => {
     const serverQueue = queues.get(guild.id);
     serverQueue.songs.push(song);
-    serverQueue.textChannel.send({ embed: {
-        title: "Added to Queue",
-        description: song.title,
-        color: "#8eedd2",
-        image: {
-            url: song.thumbnail,
-        },
-    } });
+};
+
+exports.addPlaylist = (guild, playlist) => {
+    const serverQueue = queues.get(guild.id);
+    playlist.forEach(song => {
+        serverQueue.songs.push(song);
+        console.log(`Added to Queue: **${song.title}**`);
+    });
 };
 
 exports.getServerQueue = (guild) => {
@@ -50,15 +54,20 @@ async function play(serverQueue) {
     const song = serverQueue.songs[serverQueue.index];
 
     if(!song) {
-        serverQueue.playing = false;
         serverQueue.index = 0;
+        if(serverQueue.looping) {
+            return play(serverQueue);   
+        }
+        serverQueue.playing = false;
         return;
     }
     const dispatcher = serverQueue.connection
         .play(await ytdl(song.url), { type: 'opus' })
         .on("finish", () => {
             serverQueue.index++;
-            play(serverQueue);
+            setTimeout(function() { // To prevent exceeding stack size
+                play(serverQueue); 
+            }, 0);
         })
         .on("error", error => console.error(error));
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
