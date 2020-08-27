@@ -22,9 +22,10 @@ module.exports = (client, message) => {
             }
         }
 
-        if (!client.commands.has(commandName)) return;
-
-        const command = client.commands.get(commandName);
+        const command = client.commands.get(commandName)
+            || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        
+        if(!command) return;
 
         if (args.length < command.minArgs) {
             const reply = (command.minArgs > 1) ? `You must provide at least ${command.minArgs} arguments to run this command!` : 
