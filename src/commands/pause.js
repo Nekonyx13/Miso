@@ -1,6 +1,7 @@
 module.exports = {
     name: "pause",
     description: "Pauses the music player",
+    aliases: [],
     usage: "",
     
     args: false,

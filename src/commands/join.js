@@ -1,6 +1,7 @@
 module.exports = {
     name: "join",
     description: "Automatically summons me to a voice channel",
+    aliases: ['summon'],
     usage: "[user|voiceChannel]",
 
     args: true,

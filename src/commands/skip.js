@@ -1,6 +1,7 @@
 module.exports = {
     name: "skip",
     description: "Skips one or multiple tracks in the queue",
+    aliases: ['next'],
     usage: "[amount]",
 
     args: true,

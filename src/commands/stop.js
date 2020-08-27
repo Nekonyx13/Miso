@@ -1,12 +1,13 @@
 module.exports = {
     name: "stop",
     description: "Stops and clears the queue!",
+    aliases: ['clear'],
     usage: "",
 
     args: true,
     opts: false,
 
-    async execute(message, args) {
+    async execute(message) {
         const serverQueue = message.client.queues.get(message.guild.id);
         if(!serverQueue) return;
 

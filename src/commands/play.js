@@ -1,4 +1,3 @@
-const join = require("../commands/join");
 const voice = require("../handlers/voice");
 const music = require("../utils/music");
 const { PREFIX } = require("../../config.json");
@@ -6,7 +5,9 @@ const { PREFIX } = require("../../config.json");
 module.exports = {
     name: "play",
     description: "Plays a song or adds it to the queue!",
-    usage: "[YT-url|YT-search]",
+    aliases: ['p'],
+    usage: "<YT-url|YT-search>",
+
     args: true,
     opts: false,
 
@@ -38,12 +39,12 @@ module.exports = {
                     serverQueue.paused = false;
                     return;
                 }
-                message.reply(`The queue is already playing! If you want to add a song try ${PREFIX}${this.name} ${this.usage}`);
+                message.channel.send(`The queue is already playing! If you want to add a song try \`${PREFIX}${this.name} ${this.usage}\``);
             }
             return;
         }
 
-        // if(music.validatePlaylistURL(args.join(' '))) {
+        // if(validatePlaylistURL(args.join(' '))) {
         //     const playlist = await music.resolvePlaylist(args.join(' '));
         //     if(!serverQueue) {
         //         voice.createQueue(guild);
@@ -55,7 +56,7 @@ module.exports = {
 
         const song = await music.resolveSong(args.join(' '))
             .catch(error => {
-                message.channel.send("Your link or query didn't fetch any results!");
+                message.channel.send("Your link or search didn't fetch any results!");
                 return console.error(error);
             });
         if(serverQueue && serverQueue.songs.length) {
@@ -76,8 +77,14 @@ module.exports = {
             }
         } 
         else {
-            voice.createQueue(guild, song);
+            voice.createQueue(guild);
+            voice.addToQueue(guild, song);
             voice.startQueue(guild, message, connection);
         }
     }
 };
+
+// function validatePlaylistURL(url) {
+//     const urlSearch = new URLSearchParams(url);
+//     return urlSearch.has('list') || urlSearch.has('playlist') || /^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/playlist.+/.test(url);
+// }

@@ -3,6 +3,7 @@ const { PREFIX } = require('../../config.json');
 module.exports = {
     name: "help",
     description: "Provides help in form of a list of commands, or...- Wait isn't that a little recursive?  (〇ヘ 〇)？",
+    aliases: ['h', 'commands'],
     usage: "[command]",
 
     args: true,

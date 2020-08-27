@@ -2,10 +2,11 @@
 module.exports = {
     name: "ping",
     description: "Tests the ping between you and me!",
+    aliases: ['pong'],
+    usage: "",
+
     args: true,
     opts: false,
-
-    usage: "",
     
     async execute(message) {
         const reply = await message.channel.send({ embed: {

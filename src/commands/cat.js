@@ -10,6 +10,7 @@ const feedLimit = 100;
 module.exports = {
     name: "cat",
     description: "Sends a random cat image! Meeeow!",
+    aliases: ['pussy', 'kitty'],
     usage: "[options]",
 
     args: true,

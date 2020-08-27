@@ -4,10 +4,11 @@ const fetch = require('node-fetch');
 module.exports = {
     name: "manga",
     description: "Get information about a manga from [Mymangalist](www.mymangalist.net)",
+    aliases: [],
+    usage: "<search>",
+    
     args: true,
     opts: false,
-    usage: "<search>",
-
     minArgs: 1,
 
     async execute(message, args) {

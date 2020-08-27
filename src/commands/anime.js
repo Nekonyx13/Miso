@@ -4,8 +4,7 @@ const fetch = require('node-fetch');
 module.exports = {
     name: "anime",
     description: "Get information about an anime from [MyAnimelist](www.myanimelist.net)",
-    args: true,
-    opts: false,
+    aliases: ['mal', 'anim'],
     usage: "<search>",
 
     minArgs: 1,

@@ -1,9 +1,11 @@
 module.exports = {
     name: "back",
     description: "Goes back one or multiple tracks in the queue",
+    aliases: ['previous', 'last'],
+    usage: "[amount]",
+
     args: true,
     opts: false,
-    usage: "[amount]",
 
     async execute(message, args) {
         const serverQueue = message.client.queues.get(message.guild.id);

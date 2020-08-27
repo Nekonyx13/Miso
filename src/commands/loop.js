@@ -1,6 +1,7 @@
 module.exports = {
     name: "loop",
     description: "Toggles the repeat-mode of the queue",
+    aliases: ['l', 'repeat'],
     usage: "",
 
     args: false,
