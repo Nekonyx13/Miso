@@ -1,25 +1,23 @@
 const Discord = require('discord.js');
 const { client } = require('../../index');
 const ytdl = require('ytdl-core-discord');
+const { PREFIX } = require("../../config.json");
 
 client.queues = new Discord.Collection();
 const queues = client.queues;
 
-exports.createQueue = (guild, song) => {
+exports.createQueue = (guild) => {
     const queueConstruct = {
         voiceChannel: null,
         textChannel: null,
         connection: null,
-        songs: [song],
+        songs: [],
         index: 0,
         volume: 1,
         playing: false,
         paused: false,
         looping: false,
     };
-    if(!song) {
-        queueConstruct.songs = [];
-    }
     queues.set(guild.id, queueConstruct);    
 };
 
@@ -38,7 +36,7 @@ exports.addToQueue = (guild, song) => {
     serverQueue.songs.push(song);
 };
 
-exports.addPlaylist = (guild, playlist) => {
+exports.addPlaylist = async (guild, playlist) => {
     const serverQueue = queues.get(guild.id);
     playlist.forEach(song => {
         serverQueue.songs.push(song);
@@ -58,8 +56,12 @@ async function play(serverQueue) {
         if(serverQueue.looping) {
             return play(serverQueue);   
         }
-        serverQueue.playing = false;
-        return;
+        serverQueue.textChannel.send({ embed: {
+            title: "Reached end of Queue",
+            description: `If you want to play the queue again use \`${PREFIX}play\``,
+            color: "#f54e4e",
+        } });
+        return serverQueue.playing = false;
     }
     const dispatcher = serverQueue.connection
         .play(await ytdl(song.url), { type: 'opus' })
