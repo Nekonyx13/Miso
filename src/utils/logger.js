@@ -6,11 +6,13 @@ module.exports.logMessage = (message) => {
     const dateString = formatDateString(new Date());
     const logPath = `./data/logs/${guildID}/${channelID}/${dateString}.log`;
 
+    const logString = `${message.author.tag} - (${message.createdAt.getHours()}:${message.createdAt.getMinutes()})\n    ${message.content}\n`;
+
     if(!fs.existsSync(logPath)) {
-        fs.writeFileSync(logPath, message.content + '\n');
+        fs.writeFileSync(logPath, logString);
     } 
     else {
-        fs.appendFileSync(logPath, message.content + '\n');
+        fs.appendFileSync(logPath, logString);
     }
 };
 
