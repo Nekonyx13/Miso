@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 
 module.exports = {
     name: "manga",
-    description: "Get information about a manga from [Mymangalist](www.mymangalist.net)",
+    description: "Get information about a manga from [MyAnimeList](www.myanimelist.net)",
     aliases: [],
     usage: "<search>",
     
