@@ -66,7 +66,13 @@ module.exports = {
                     title: "Added to Queue",
                     description: song.title,
                     color: "#8eedd2",
-                    image: {
+                    fields: [
+                        {
+                            name: "Length",
+                            value: song.length
+                        }
+                    ],
+                    thumbnail: {
                         url: song.thumbnail,
                     },
                 } });

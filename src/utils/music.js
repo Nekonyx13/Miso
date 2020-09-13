@@ -27,6 +27,7 @@ exports.resolveSong = async (arg) => {
         title: songInfo.title,
         url: songInfo.video_url,
         thumbnail: songInfo.player_response.videoDetails.thumbnail.thumbnails[0].url,
+        length: formatLength(songInfo.length_seconds),
     };
 };
 
@@ -62,4 +63,11 @@ function resolveHost(arg) {
         return 'spotify';
     }
     return 'search';
+}
+
+function formatLength(seconds) {
+    let length = new Date(seconds * 1000).toISOString().substr(11, 8);
+    if(length.startsWith("00:")) { length = length.substr(3);}
+    if(length.startsWith('0')) {length = length.substr(1);}
+    return length;
 }

@@ -77,7 +77,13 @@ async function play(serverQueue) {
         title: "Now Playing",
         description: song.title,
         color: "#8eeda9",
-        image: {
+        fields: [
+            {
+                name: "Length",
+                value: song.length
+            }
+        ],
+        thumbnail: {
             url: song.thumbnail,
         },
     } });
