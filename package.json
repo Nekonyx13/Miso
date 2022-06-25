@@ -14,7 +14,7 @@
     "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "gapi": "0.0.3",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "r2": "^2.0.1",
     "require-all": "^3.0.0",
     "youtube-playlist": "^1.0.4",
