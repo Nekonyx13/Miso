@@ -1,9 +1,10 @@
 # Miso
-An official Learn-Gwoup™ Discord-Bot, written in discord.js
+The official Learn-Gwoup™ Discord-Bot, written in discord.js
+DISCLAIMER: This repository is NOT to be taken seriously and was mereley created as a pasttime project to get into coding Discord Bots.
 <hr>
 
-## Currently... under development
-Cause it literally can't do shit right now.
-- Update: now it can send cat images
-- further Update: now it can do some ping measuring (woah)
-- Major Update: it can do some, but still not a lot of shit now (music, anime, manga)
+## Currently... discontinued
+Because I have other things to do.
+- It can send cat images
+- It can do some ping measuring (woah)
+- It can do some, but still not a lot of stuff (play music, show anime/manga info)
